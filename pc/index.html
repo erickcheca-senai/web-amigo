@@ -1,0 +1,3507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sem-Banha Smokehouse • Mesa 14 VIP (Cardápio & Comanda Mobile)</title>
+  <meta name="description" content="App móvel digital de alta gastronomia para o restaurante Sem-Banha Smokehouse & Brasa Nobre. Cardápio interativo, comanda digital, câmera social e passaporte Pitmaster.">
+  <meta name="theme-color" content="#09090c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- Google Fonts: Editorial Serif + Modern Geometric Sans + Numbers Accent -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Oswald:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       DESIGN SYSTEM & TOKENS (Famous Brand Tier)
+       ============================================================ */
+    :root {
+      --bg: #09090c;
+      --bg-surface: #101015;
+      --bg-card: #15151c;
+      --bg-card-hover: #1c1c25;
+      --bg-elevated: #20202a;
+      --bg-glass: rgba(18, 18, 24, 0.88);
+      
+      --border: rgba(255, 255, 255, 0.08);
+      --border-subtle: rgba(255, 255, 255, 0.04);
+      --border-hover: rgba(255, 255, 255, 0.18);
+      --border-gold: rgba(229, 185, 95, 0.35);
+      --border-flame: rgba(255, 106, 0, 0.35);
+
+      --primary: #ff6a00;
+      --primary-hover: #ff7d1a;
+      --primary-dark: #c44d00;
+      --primary-glow: rgba(255, 106, 0, 0.45);
+
+      --gold: #e5b95f;
+      --gold-light: #f5d794;
+      --gold-dark: #b88a32;
+      --gold-glow: rgba(229, 185, 95, 0.4);
+
+      --green: #2ec4b6;
+      --green-glow: rgba(46, 196, 182, 0.4);
+      --red: #ef4444;
+
+      --text: #ffffff;
+      --text-sub: #c5c5d2;
+      --text-muted: #7e7e8f;
+
+      --font-display: 'Cinzel', serif;
+      --font-accent: 'Oswald', sans-serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --radius-pill: 9999px;
+
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.6);
+      --shadow-lg: 0 24px 64px -12px rgba(0, 0, 0, 0.8);
+      --shadow-primary: 0 8px 30px var(--primary-glow);
+      --shadow-gold: 0 8px 30px var(--gold-glow);
+
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html {
+      height: 100%;
+      height: -webkit-fill-available;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: #040406;
+      color: var(--text);
+      min-height: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Ember Canvas on Desktop backdrop */
+    #emberCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Confetti Canvas */
+    #confettiCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* Container Mockup Mobile (Responsivo para Celular e Desktop) */
+    .app-frame {
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+      height: 100vh;
+      height: 100dvh;
+      height: -webkit-fill-available;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+
+    @media (min-width: 600px) {
+      body {
+        padding: 16px 0;
+        box-sizing: border-box;
+      }
+      .app-frame {
+        height: 890px;
+        max-height: calc(100vh - 32px);
+        max-height: calc(100dvh - 32px);
+        border-radius: 44px;
+        border: 10px solid #1a1a22;
+        box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255, 106, 0, 0.15);
+      }
+    }
+
+    /* Top App Bar */
+    .top-header {
+      background: rgba(14, 14, 18, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 40;
+    }
+
+    .brand-section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .brand-icon-flame {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #1f140d 0%, #3a1c0d 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px var(--primary-glow);
+    }
+
+    .brand-icon-flame svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .table-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .table-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: var(--gold);
+    }
+
+    .dot-online {
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--green);
+      animation: pulseGreen 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseGreen {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.85); }
+    }
+
+    .screen-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-icon-header {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(25, 25, 34, 0.8);
+      border: 1px solid var(--border);
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .btn-icon-header:hover {
+      color: #fff;
+      border-color: var(--border-hover);
+      background: rgba(35, 35, 46, 1);
+    }
+
+    .badge-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    /* Container de Telas com Scroll Fluido */
+    .screens-container {
+      flex: 1 1 0;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+      padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .screens-container::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .screens-container::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    .screen {
+      display: none;
+      padding: 16px;
+      animation: fadeInScreen 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeInScreen {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Banner Passaporte VIP */
+    .passport-banner {
+      background: linear-gradient(135deg, #1b140d 0%, #24170d 50%, #15151b 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(229, 185, 95, 0.2);
+      transition: var(--transition);
+    }
+
+    .passport-banner:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .passport-banner-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .banner-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--gold-light);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .stamp-pill {
+      background: rgba(229, 185, 95, 0.15);
+      border: 1px solid rgba(229, 185, 95, 0.4);
+      color: var(--gold-light);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+    }
+
+    .banner-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .banner-desc {
+      font-size: 11px;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    /* Barra de Busca */
+    .search-bar {
+      background: rgba(20, 20, 26, 0.85);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      transition: var(--transition);
+    }
+
+    .search-bar:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 14px rgba(255, 106, 0, 0.25);
+    }
+
+    .search-bar input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-family: inherit;
+      font-size: 13px;
+      width: 100%;
+    }
+
+    /* Categorias em Carrossel Horizontal */
+    .category-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 8px;
+    }
+
+    .category-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-chip {
+      background: rgba(22, 22, 29, 0.85);
+      border: 1px solid var(--border);
+      color: var(--text-sub);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 15px;
+      border-radius: var(--radius-pill);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .cat-chip.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    /* Seção Header */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 14px;
+    }
+
+    .section-eyebrow {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    /* Cartão de Prato Mobile */
+    .food-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 16px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .food-card:active {
+      transform: scale(0.98);
+    }
+
+    .food-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      background: #1c1c24;
+      overflow: hidden;
+    }
+
+    .food-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .food-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(14, 14, 18, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 106, 0, 0.4);
+      color: #ff9e58;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .portion-badge {
+      position: absolute;
+      bottom: 10px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      color: var(--text-sub);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .food-card-body {
+      padding: 16px;
+    }
+
+    .food-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .food-desc {
+      font-size: 12px;
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .food-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+
+    .price-label {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .price-value {
+      font-family: var(--font-accent);
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .btn-add {
+      background: var(--primary);
+      border: none;
+      color: #fff;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px var(--primary-glow);
+      transition: var(--transition);
+    }
+
+    .btn-add:active {
+      transform: scale(0.94);
+    }
+
+    /* Floating Comanda Bar */
+    .floating-comanda-bar {
+      position: absolute;
+      bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+      left: 14px;
+      right: 14px;
+      background: rgba(22, 22, 30, 0.94);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-flame);
+      border-radius: var(--radius-pill);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 30;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      animation: slideUpFloat 0.3s ease-out;
+    }
+
+    @keyframes slideUpFloat {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .floating-comanda-bar .info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .floating-comanda-bar .icon-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px var(--primary-glow);
+    }
+
+    /* TELA 2: COMANDA / PAGAMENTO */
+    .bill-header-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .bill-item-row {
+      background: rgba(18, 18, 24, 0.7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .item-icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: rgba(255, 106, 0, 0.12);
+      border: 1px solid rgba(255, 106, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .item-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .item-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .item-sub {
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+
+    .item-time {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .item-price {
+      font-family: var(--font-accent);
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    /* Tip Group */
+    .tip-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .tip-box {
+      flex: 1;
+      padding: 10px 4px;
+      text-align: center;
+      background: rgba(22, 22, 29, 0.85);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .tip-box.active {
+      background: rgba(229, 185, 95, 0.18);
+      border-color: var(--gold);
+    }
+
+    .tip-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .tip-box.active .tip-title {
+      color: var(--gold-light);
+    }
+
+    .tip-val {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* Summary Card */
+    .summary-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+    }
+
+    .summary-row.total {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      align-items: center;
+    }
+
+    .total-amount {
+      font-family: var(--font-accent);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    /* Métodos de Pagamento */
+    .payment-option {
+      background: rgba(18, 18, 24, 0.7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .payment-option.active {
+      border-color: var(--primary);
+      background: rgba(35, 22, 14, 0.6);
+    }
+
+    /* TELA 3: CÂMERA SOCIAL PRO */
+    .camera-viewfinder {
+      width: 100%;
+      height: 380px;
+      background: #000;
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #webcamVideoMobile {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+      display: none;
+    }
+
+    #fallbackPhotoMobile {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    #mobileCaptureCanvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: none;
+      z-index: 30;
+      background: #000;
+    }
+
+    /* HUD Reticles */
+    .reticle-corner-mob {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      pointer-events: none;
+      z-index: 32;
+    }
+
+    .reticle-tl-mob { top: 12px; left: 12px; border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+    .reticle-tr-mob { top: 12px; right: 12px; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+    .reticle-bl-mob { bottom: 12px; left: 12px; border-bottom: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+    .reticle-br-mob { bottom: 12px; right: 12px; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+
+    .flash-overlay {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 50;
+      transition: opacity 0.12s ease-out;
+    }
+
+    .flash-overlay.flash {
+      opacity: 1;
+    }
+
+    .viewfinder-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px;
+      pointer-events: none;
+      z-index: 25;
+    }
+
+    /* Moldura Styles */
+    .frame-gold-mob {
+      border: 10px solid var(--gold);
+      box-shadow: inset 0 0 25px rgba(229, 185, 95, 0.4);
+    }
+
+    .frame-parrilla-mob {
+      border: 10px solid var(--primary);
+      box-shadow: inset 0 0 25px rgba(255, 106, 0, 0.4);
+    }
+
+    .frame-chopp-mob {
+      border: 10px solid var(--green);
+      box-shadow: inset 0 0 25px rgba(46, 196, 182, 0.4);
+    }
+
+    /* Shutter Controls */
+    .shutter-btn-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin: 18px 0;
+    }
+
+    .shutter-btn {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0%, #e0e0e0 70%);
+      border: 4px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      cursor: pointer;
+      box-shadow: 0 0 25px var(--primary-glow);
+      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .shutter-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* TELA 4: PASSAPORTE FIDELIDADE */
+    .stamps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .stamp-box {
+      background: rgba(18, 18, 24, 0.7);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-md);
+      padding: 12px 4px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+    }
+
+    .stamp-box.completed {
+      background: rgba(35, 24, 14, 0.6);
+      border: 1px solid var(--gold);
+    }
+
+    .stamp-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .stamp-box.completed .stamp-circle {
+      background: linear-gradient(135deg, #ff6a00, #e5b95f);
+      border-color: #ffd54f;
+      box-shadow: 0 4px 12px var(--gold-glow);
+    }
+
+    /* TELA 5: DETALHES DO PRATO */
+    .dish-detail-hero {
+      width: 100%;
+      height: 240px;
+      position: relative;
+      margin: -16px -16px 16px -16px;
+      background: #1c1c24;
+      overflow: hidden;
+    }
+
+    .dish-detail-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .dish-detail-hero .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 40%, var(--bg) 100%);
+    }
+
+    .btn-back-dish {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .custom-radio-row, .custom-check-row {
+      background: rgba(20, 20, 26, 0.7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: var(--transition);
+    }
+
+    .custom-radio-row.selected, .custom-check-row.selected {
+      background: rgba(35, 24, 14, 0.6);
+      border-color: var(--primary);
+    }
+
+    /* Fixed Bottom Button */
+    .bottom-cta-fixed {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(14, 14, 18, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      z-index: 50;
+    }
+
+    .btn-primary-large {
+      width: 100%;
+      background: linear-gradient(135deg, #ff6a00 0%, #ff8522 100%);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: var(--shadow-primary);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary-large:active {
+      transform: scale(0.97);
+    }
+
+    /* Bottom Navigation Dock */
+    .bottom-nav {
+      height: calc(72px + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      background: rgba(14, 14, 18, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 40;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .nav-item svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .nav-item .camera-btn-nav {
+      background: linear-gradient(135deg, #ff6a00, #ff8522);
+      padding: 8px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    /* Modal Sheets */
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #14141a;
+      border-top: 1px solid var(--border-gold);
+      border-radius: 24px 24px 0 0;
+      width: 100%;
+      padding: 24px 20px 36px 20px;
+      text-align: center;
+      animation: slideUpSheet 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes slideUpSheet {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    /* Toast */
+    .toast {
+      position: absolute;
+      top: 76px;
+      left: 16px;
+      right: 16px;
+      background: rgba(20, 20, 26, 0.94);
+      border: 1px solid var(--border-gold);
+      backdrop-filter: blur(16px);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 700;
+      z-index: 200;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .toast.show {
+      display: flex;
+      animation: toastIn 0.25s ease-out;
+    }
+
+    /* ============================================================
+       TELA DE LOGIN E CADASTRO VIP (ESTILO BRASA & FOGO)
+       ============================================================ */
+    .auth-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 0 24px 0;
+      position: relative;
+    }
+
+    .auth-glow-bg {
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 106, 0, 0.22) 0%, rgba(255, 106, 0, 0) 70%);
+      top: -30px;
+      right: -40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .auth-glow-gold {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(229, 185, 95, 0.16) 0%, rgba(229, 185, 95, 0) 70%);
+      bottom: 20px;
+      left: -40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .auth-brand-logo {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff7a00 0%, #d63b00 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 28px rgba(255, 106, 0, 0.45);
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-brand-logo svg {
+      width: 44px;
+      height: 44px;
+    }
+
+    .auth-title {
+      font-family: var(--font-display);
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 2px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-title span {
+      color: var(--primary);
+    }
+
+    .auth-subtitle {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-tabs {
+      display: flex;
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 4px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      padding: 10px 14px;
+      border: none;
+      background: transparent;
+      color: var(--text-sub);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: center;
+    }
+
+    .auth-tab-btn.active {
+      background: linear-gradient(135deg, #ff6a00 0%, #e65100 100%);
+      color: #fff;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    .auth-form-card {
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-field {
+      margin-bottom: 12px;
+    }
+
+    .auth-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+    }
+
+    .auth-input-wrapper {
+      display: flex;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0 14px;
+      height: 48px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .auth-input-wrapper:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.2);
+    }
+
+    .auth-input-icon {
+      font-size: 18px;
+      margin-right: 10px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+    }
+
+    .auth-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-family: inherit;
+      font-size: 13px;
+      outline: none;
+      width: 100%;
+    }
+
+    .auth-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .auth-input-toggle {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      font-size: 16px;
+    }
+
+    .auth-row-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0 16px 0;
+      font-size: 12px;
+    }
+
+    .auth-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-sub);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .auth-link {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .auth-link:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+
+    .auth-btn-primary {
+      width: 100%;
+      height: 48px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ff7a00 0%, #e65100 100%);
+      color: #fff;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px var(--primary-glow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .auth-btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .auth-btn-primary.loading {
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin: 18px 0 14px 0;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .auth-divider::before, .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .auth-divider span {
+      padding: 0 12px;
+    }
+
+    .auth-social-row {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .auth-social-btn {
+      flex: 1;
+      height: 42px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .auth-social-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+    }
+
+    .auth-guest-card {
+      width: 100%;
+      background: rgba(26, 26, 36, 0.7);
+      border: 1px dashed var(--border-flame);
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      margin-bottom: 16px;
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-guest-card:hover {
+      background: rgba(35, 24, 14, 0.7);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .auth-guest-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 106, 0, 0.15);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .auth-bonus-box {
+      background: rgba(35, 24, 14, 0.6);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 11px;
+      color: var(--gold-light);
+    }
+
+    .auth-security-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .user-profile-sheet {
+      text-align: left;
+    }
+
+    .user-profile-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .user-avatar-large {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff6a00, #e5b95f);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+    }
+  
+    /* ===== Layout responsivo: computador, notebook, tablet e celular ===== */
+    @media (min-width: 900px) {
+      body {
+        display: block;
+        padding: 0;
+        align-items: initial;
+        justify-content: initial;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+      .app-frame {
+        width: 100%;
+        max-width: none;
+        height: 100vh;
+        height: 100dvh;
+        min-height: 620px;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: hidden;
+      }
+      .top-header {
+        padding: 16px clamp(24px, 4vw, 64px);
+      }
+      .screens-container {
+        width: 100%;
+        padding: 26px clamp(24px, 4vw, 64px) 112px;
+        overflow-y: auto;
+      }
+      .screen {
+        width: 100%;
+        max-width: 1440px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 8px 0 28px;
+      }
+      #screenAuth {
+        max-width: 560px;
+        padding-top: clamp(28px, 5vh, 64px);
+      }
+      #screenMenu .passport-banner {
+        padding: 24px 28px;
+      }
+      #screenMenu .search-bar {
+        max-width: 720px;
+      }
+      #screenMenu .category-scroll {
+        flex-wrap: wrap;
+        overflow-x: visible;
+        margin-top: 18px;
+      }
+      #dishesList {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+        align-items: stretch;
+      }
+      #dishesList .food-card {
+        margin: 0;
+        min-width: 0;
+      }
+      #dishesList .food-img-wrapper {
+        height: clamp(190px, 18vw, 280px);
+      }
+      .bill-header-card,
+      #screenBill .summary-card,
+      #screenBill .tip-group,
+      #screenBill .payment-options,
+      #screenCamera > *,
+      #screenStamps > * {
+        max-width: 100%;
+      }
+      .camera-viewfinder {
+        max-width: 900px;
+        height: min(58vh, 620px);
+        margin-left: auto;
+        margin-right: auto;
+      }
+      #screenCamera .shutter-btn-row {
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .bottom-nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 76px;
+        padding: 0 max(24px, calc((100vw - 900px) / 2));
+        border-top: 1px solid var(--border-gold);
+      }
+      .nav-item {
+        min-width: 100px;
+        font-size: 12px;
+      }
+      .floating-comanda-bar {
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(900px, calc(100% - 48px));
+        bottom: 88px;
+        border-radius: 16px;
+      }
+      .modal-content {
+        width: min(620px, calc(100vw - 48px));
+        max-height: 85vh;
+        overflow-y: auto;
+      }
+    }
+    @media (min-width: 600px) and (max-width: 899px) {
+      .app-frame {
+        max-width: 100%;
+        border-radius: 0;
+        border: 0;
+      }
+      .screens-container { padding-left: 24px; padding-right: 24px; }
+      #dishesList {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+      #dishesList .food-card { margin-bottom: 0; }
+    }
+    @media (max-width: 599px) {
+      html, body { width: 100%; overflow-x: hidden; }
+      .app-frame { width: 100%; max-width: 100%; }
+      .screens-container { overscroll-behavior-y: contain; }
+      .screen { padding: 14px; }
+      .camera-viewfinder { height: min(52vh, 380px); }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Light Backdrops -->
+  <canvas id="emberCanvas"></canvas>
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="app-frame">
+    
+    <!-- Toast Informativo -->
+    <div id="appToast" class="toast">
+      <span style="color: var(--primary);">🔥</span>
+      <span id="toastMsg">Mensagem</span>
+    </div>
+
+    <!-- Header Superior (Top App Bar - Aparece após Login) -->
+    <header class="top-header" id="mainTopHeader" style="display: none;">
+      <div class="brand-section-header" onclick="switchTab(0)">
+        <div class="brand-icon-flame">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C9.5 6 7 9 7 13.5C7 16.5 9.2 19 12 19C14.8 19 17 16.5 17 13.5C17 9 14.5 6 12 2Z" fill="#ff6a00" />
+            <path d="M12 8C10.8 10 9.5 11.5 9.5 14C9.5 15.4 10.6 16.5 12 16.5C13.4 16.5 14.5 15.4 14.5 14C14.5 11.5 13.2 10 12 8Z" fill="#e5b95f" />
+          </svg>
+        </div>
+        <div class="table-info">
+          <div class="table-badge">
+            <div class="dot-online"></div>
+            <span>MESA 14 VIP • SALÃO</span>
+          </div>
+          <div id="headerTitle" class="screen-title">Sem-Banha Brasa</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="btn-icon-header" id="btnUserAccountMob" onclick="openUserProfileModal()" title="Minha Conta">
+          <span id="userAccountIconMob">👤</span>
+        </div>
+        <div class="btn-icon-header" id="btnSoundMobile" onclick="toggleSound()" title="Ativar/Desativar Som">
+          <span id="soundIconMob">🔊</span>
+        </div>
+        <div class="btn-icon-header" onclick="openWaiterModalMobile()" title="Chamar Garçom">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <div class="badge-dot"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTAINER DAS TELAS -->
+    <main class="screens-container">
+
+      <!-- ========================================================
+           TELA 0: AUTENTICAÇÃO (LOGIN & CADASTRO VIP)
+           ======================================================== -->
+      <section id="screenAuth" class="screen active">
+        <div class="auth-container">
+          <div class="auth-glow-bg"></div>
+          <div class="auth-glow-gold"></div>
+
+          <!-- Mesa Conectada Pill Status -->
+          <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 5px 14px; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px; position: relative; z-index: 1;">
+            <div class="dot-online"></div>
+            <span style="font-size: 10px; font-weight: 800; letter-spacing: 0.8px; color: var(--gold);">MESA 14 • SALÃO VIP CONECTADO</span>
+          </div>
+
+          <!-- Logotipo Brasa Viva -->
+          <div class="auth-brand-logo">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 2C9.5 6 7 9 7 13.5C7 16.5 9.2 19 12 19C14.8 19 17 16.5 17 13.5C17 9 14.5 6 12 2Z" fill="#ffffff" />
+              <path d="M12 7C10.8 9 9.5 10.8 9.5 13C9.5 14.4 10.6 15.5 12 15.5C13.4 15.5 14.5 14.4 14.5 13C14.5 10.8 13.2 9 12 7Z" fill="#ffe082" />
+            </svg>
+          </div>
+
+          <div class="auth-title">BRASA <span>VIVA</span></div>
+          <div class="auth-subtitle">STEAKHOUSE • CARDÁPIO & FIDELIDADE</div>
+
+          <!-- Abas: Entrar / Cadastrar -->
+          <div class="auth-tabs">
+            <button id="tabBtnLogin" class="auth-tab-btn active" onclick="switchAuthTab('login')">Entrar na Conta</button>
+            <button id="tabBtnRegister" class="auth-tab-btn" onclick="switchAuthTab('register')">Criar Nova Conta</button>
+          </div>
+
+          <!-- FORMULÁRIO DE LOGIN -->
+          <div id="authFormLogin" class="auth-form-card">
+            <div style="background: rgba(255, 106, 0, 0.08); border: 1px dashed rgba(255, 106, 0, 0.35); border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 14px; font-size: 11px; color: var(--gold); display: flex; align-items: center; gap: 8px;">
+              <span>🔑</span>
+              <span>Conta VIP: <strong>ycaro@brasaviva.com</strong> • Senha: <strong>123456</strong></span>
+            </div>
+            <div class="auth-field">
+              <label class="auth-label" for="loginEmail">E-mail ou Telefone</label>
+              <div class="auth-input-wrapper">
+                <span class="auth-input-icon">✉️</span>
+                <input type="text" id="loginEmail" class="auth-input" placeholder="seuemail@exemplo.com" value="ycaro@brasaviva.com">
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label class="auth-label" for="loginPass">Senha de Acesso</label>
+              <div class="auth-input-wrapper">
+                <span class="auth-input-icon">🔒</span>
+                <input type="password" id="loginPass" class="auth-input" placeholder="Sua senha secreta" value="123456">
+                <button type="button" class="auth-input-toggle" onclick="togglePassVisibility('loginPass', this)">👁️</button>
+              </div>
+            </div>
+
+            <div class="auth-row-options">
+              <label class="auth-checkbox-label">
+                <input type="checkbox" id="loginRemember" checked style="accent-color: var(--primary);">
+                <span>Lembrar conta</span>
+              </label>
+              <span class="auth-link" onclick="openForgotPassModal()">Esqueceu a senha?</span>
+            </div>
+
+            <button id="btnSubmitLogin" class="auth-btn-primary" onclick="handleWebLogin()">
+              <span>🚀</span>
+              <span id="btnSubmitLoginText">ACESSAR MINHA CONTA</span>
+            </button>
+
+            <div class="auth-divider">
+              <span>OU CONECTE COM</span>
+            </div>
+
+            <div class="auth-social-row">
+              <button class="auth-social-btn" onclick="handleSocialAuth('Google')">
+                <span style="color: #ea4335; font-size: 16px;">G</span> Google
+              </button>
+              <button class="auth-social-btn" onclick="handleSocialAuth('Apple')">
+                <span style="font-size: 15px;"></span> Apple
+              </button>
+            </div>
+          </div>
+
+          <!-- FORMULÁRIO DE CADASTRO -->
+          <div id="authFormRegister" class="auth-form-card" style="display: none;">
+            <div class="auth-field">
+              <label class="auth-label" for="regName">Nome Completo</label>
+              <div class="auth-input-wrapper">
+                <span class="auth-input-icon">👤</span>
+                <input type="text" id="regName" class="auth-input" placeholder="ex: Ycaro Ferreira">
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label class="auth-label" for="regEmail">E-mail Principal</label>
+              <div class="auth-input-wrapper">
+                <span class="auth-input-icon">✉️</span>
+                <input type="email" id="regEmail" class="auth-input" placeholder="seu@email.com">
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label class="auth-label" for="regPhone">WhatsApp / Celular</label>
+              <div class="auth-input-wrapper">
+                <span class="auth-input-icon">📱</span>
+                <input type="tel" id="regPhone" class="auth-input" placeholder="(11) 98765-4321">
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label class="auth-label" for="regPass">Criar Senha de Acesso</label>
+              <div class="auth-input-wrapper">
+                <span class="auth-input-icon">🔒</span>
+                <input type="password" id="regPass" class="auth-input" placeholder="Mínimo 4 caracteres">
+                <button type="button" class="auth-input-toggle" onclick="togglePassVisibility('regPass', this)">👁️</button>
+              </div>
+            </div>
+
+            <!-- Card Bônus de Fidelidade -->
+            <div class="auth-bonus-box">
+              <span style="font-size: 22px;">🎖️</span>
+              <div>
+                <strong style="color: #ffd54f;">Bônus do Clube Pitmaster:</strong>
+                <div>Ao criar sua conta você já ganha +1 carimbo no seu Passaporte Fidelidade!</div>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+              <label class="auth-checkbox-label" style="font-size: 11px;">
+                <input type="checkbox" id="regTerms" checked style="accent-color: var(--primary);">
+                <span>Concordo com os Termos de Uso e Política de Privacidade do Restaurante</span>
+              </label>
+            </div>
+
+            <button id="btnSubmitRegister" class="auth-btn-primary" onclick="handleWebRegister()">
+              <span>🎁</span>
+              <span id="btnSubmitRegisterText">CADASTRAR E RECEBER BENEFÍCIOS</span>
+            </button>
+          </div>
+
+          <!-- Botão de Convidado Rápido -->
+          <div class="auth-guest-card" onclick="handleGuestAuth()">
+            <div class="auth-guest-icon">🍽️</div>
+            <div style="flex: 1;">
+              <div style="font-size: 13px; font-weight: 800; color: #fff;">Continuar como Convidado da Mesa 14</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Acesse o cardápio e comanda agora sem precisar de senha</div>
+            </div>
+            <span style="color: var(--text-muted); font-size: 16px;">➔</span>
+          </div>
+
+          <div class="auth-security-footer">
+            <span>🛡️</span>
+            <span>Ambiente Seguro • Brasa Viva Gourmet v1.0 • SSL 256-bit</span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================================================
+           TELA 1: CARDÁPIO (Menu Completo + Search + Categories)
+           ======================================================== -->
+      <section id="screenMenu" class="screen">
+        
+        <!-- Banner Passaporte VIP -->
+        <div class="passport-banner" onclick="switchTab(3)">
+          <div class="passport-banner-header">
+            <div class="banner-tag">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+              <span>PASSPORTE PITMASTER</span>
+            </div>
+            <div class="stamp-pill" id="menuStampCounter">7 / 8 selos</div>
+          </div>
+          <div class="banner-title" id="menuStampStatus">Falta apenas 1 selo para o Brinde Lendário!</div>
+          <div class="banner-desc">Fotografe a mesa na Câmera Social, registre a comitiva e destrave a Tábua Degustação Premium cortesia da casa.</div>
+        </div>
+
+        <!-- Barra de Busca -->
+        <div class="search-bar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="searchInput" placeholder="Buscar costela, chopp, torresmo, baião..." oninput="handleSearch(this.value)">
+        </div>
+
+        <!-- Categorias em Carrossel -->
+        <div class="category-scroll">
+          <div class="cat-chip active" onclick="filterCategory(this, 'all')">🔥 Favoritos da Brasa</div>
+          <div class="cat-chip" onclick="filterCategory(this, 'cortes')">🥩 Cortes Nobres</div>
+          <div class="cat-chip" onclick="filterCategory(this, 'petiscos')">🥓 Petiscos & Entradas</div>
+          <div class="cat-chip" onclick="filterCategory(this, 'bebidas')">🍺 Chopes & Bebidas</div>
+          <div class="cat-chip" onclick="filterCategory(this, 'sobremesas')">🍰 Sobremesas na Brasa</div>
+        </div>
+
+        <!-- Header da Seção -->
+        <div class="section-header">
+          <div>
+            <div class="section-eyebrow">PARRILLA ANCESTRAL & SMOKEHOUSE</div>
+            <div class="section-title">Mais Pedidos da Mesa</div>
+          </div>
+          <div style="font-size:11px; color:var(--text-muted);" id="menuDishesCount">6 cortes disponíveis</div>
+        </div>
+
+        <!-- Lista de Pratos -->
+        <div id="dishesList"></div>
+      </section>
+
+      <!-- BARRA FLUTUANTE DE COMANDA (No Cardápio) -->
+      <div id="floatingComanda" class="floating-comanda-bar">
+        <div class="info">
+          <div class="icon-circle">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16l4-2 4 2 4-2 4 2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          </div>
+          <div>
+            <div style="font-size: 9px; font-weight: 800; color: var(--gold); letter-spacing: 0.8px;">MESA 14 • COMANDA ATIVA</div>
+            <div style="font-size: 12px; font-weight: 700; color: #fff;" id="floatingComandaText">0 itens na mesa • R$ 0,00</div>
+          </div>
+        </div>
+        <button class="btn-add" style="padding: 7px 14px; font-size: 11px;" onclick="switchTab(1)">VER CONTA</button>
+      </div>
+
+      <!-- ========================================================
+           TELA 2: COMANDA / PAGAMENTO DA CONTA (Folio de Luxo)
+           ======================================================== -->
+      <section id="screenBill" class="screen">
+        <div class="bill-header-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="dot-online"></div>
+              <span style="font-family:var(--font-display); font-size: 15px; font-weight: 800; color: #fff;">Comanda Mesa 14</span>
+            </div>
+            <span style="background: rgba(46, 196, 182, 0.2); color: var(--green); padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 800;">CONSUMO ATIVO</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted);">
+            <span>Aberta às 19:40 • Garçom: Rodrigo Silva</span>
+            <span>Comanda #3842</span>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+          <span style="font-size: 11px; font-weight: 800; color: var(--gold); letter-spacing: 0.8px;">ITENS ENTREGUES NA MESA</span>
+          <span style="font-size: 11px; color: var(--text-muted);" id="billItemsCountText">0 itens</span>
+        </div>
+
+        <!-- Lista de Itens na Comanda -->
+        <div id="mobileBillItemsList"></div>
+
+        <!-- Promo Banner Mesa 14 -->
+        <div class="passport-banner" style="margin-top: 14px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <div style="background: var(--primary); padding: 5px; border-radius: 6px; display: flex;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            </div>
+            <div>
+              <div style="font-size: 9px; font-weight: 800; color: var(--gold);">ETAPA FINAL: FOTO DA MESA</div>
+              <div style="font-size: 13px; font-weight: 800; color: #fff;">Liberar Câmera Social & Brinde da Casa</div>
+            </div>
+          </div>
+          <div class="banner-desc">Ao pagar a conta, a Câmera Social é liberada para registrar a galera e conquistar o 8º Selo Lendário!</div>
+        </div>
+
+        <!-- Gorjeta / Taxa de Serviço -->
+        <div style="display: flex; justify-content: space-between; margin: 16px 0 8px 0;">
+          <span style="font-size: 13px; font-weight: 700; color: #fff;">Taxa de Serviço do Garçom</span>
+          <span style="font-size: 10px; color: var(--text-muted);">100% repassado à equipe</span>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-box" onclick="selectTip(0, this)">
+            <div class="tip-title">0%</div>
+            <div class="tip-val">Sem taxa</div>
+          </div>
+          <div class="tip-box active" onclick="selectTip(10, this)">
+            <div class="tip-title">10%</div>
+            <div class="tip-val">+ R$ 0,00</div>
+          </div>
+          <div class="tip-box" onclick="selectTip(12, this)">
+            <div class="tip-title">12% Sugerido</div>
+            <div class="tip-val">+ R$ 0,00</div>
+          </div>
+          <div class="tip-box" onclick="selectTip(15, this)">
+            <div class="tip-title">15% VIP</div>
+            <div class="tip-val">+ R$ 0,00</div>
+          </div>
+        </div>
+
+        <!-- Resumo Financeiro -->
+        <div class="summary-card">
+          <div class="summary-row">
+            <span>Subtotal dos Itens</span>
+            <span id="mobileSubtotalVal">R$ 0,00</span>
+          </div>
+          <div class="summary-row">
+            <span id="tipLabelMobile">Taxa de Atendimento (10%)</span>
+            <span id="tipValTextMobile">+ R$ 0,00</span>
+          </div>
+          <div class="summary-row total">
+            <div>
+              <div style="font-size: 10px; color: var(--gold); letter-spacing: 0.6px; font-weight: 800;">VALOR TOTAL A PAGAR</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Mesa 14 • adicione pratos</div>
+            </div>
+            <div class="total-amount" id="totalPriceBillMobile">R$ 0,00</div>
+          </div>
+        </div>
+
+        <!-- Formas de Pagamento -->
+        <div style="font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 10px;">Forma de Pagamento</div>
+
+        <div class="payment-option active" id="payPix" onclick="selectPayment('pix')">
+          <span style="font-size:20px;">⚡</span>
+          <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 13px; font-weight: 700; color: #fff;">PIX Instantâneo</span>
+              <span style="background: rgba(46,196,182,0.2); color: var(--green); font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">Liberação Imediata</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-sub);">QR Code ou Copia e Cola</div>
+          </div>
+          <button style="background: transparent; border: 1px solid var(--gold); color: var(--gold); border-radius: 6px; padding: 4px 8px; font-size: 11px; font-weight: 700; cursor: pointer;" onclick="event.stopPropagation(); openQrModal();">Ver QR</button>
+        </div>
+
+        <div class="payment-option" id="payCard" onclick="selectPayment('card')">
+          <span style="font-size:20px;">💳</span>
+          <div style="flex: 1;">
+            <div style="font-size: 13px; font-weight: 700; color: #fff;">Cartão de Crédito / Débito</div>
+            <div style="font-size: 11px; color: var(--text-sub);">Garçom traz a maquininha na mesa</div>
+          </div>
+        </div>
+
+        <div class="payment-option" id="payWallet" onclick="selectPayment('wallet')">
+          <span style="font-size:20px;">📱</span>
+          <div style="flex: 1;">
+            <div style="font-size: 13px; font-weight: 700; color: #fff;">Apple Pay / Google Pay</div>
+            <div style="font-size: 11px; color: var(--text-sub);">Aproxime o celular e pague</div>
+          </div>
+        </div>
+
+        <!-- Botão Pagar -->
+        <div style="margin-top: 18px;">
+          <button class="btn-primary-large" id="btnPayMobile" onclick="processPaymentMobile()">
+            Pagar R$ 350,80 & Liberar Câmera
+          </button>
+          <div style="text-align: center; font-size: 10px; color: var(--text-muted); margin-top: 6px;">
+            Pagamento 100% seguro • Mesa liberada na hora
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           TELA 3: CÂMERA SOCIAL PRO (Webcam + Fallback + Molduras)
+           ======================================================== -->
+      <section id="screenCamera" class="screen">
+        <div class="bill-header-card" style="background: linear-gradient(135deg, #2b170a 0%, #1c1108 100%); border-color: var(--border-flame);">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="background: var(--primary); padding: 8px; border-radius: 50%;">🎉</div>
+            <div>
+              <div style="font-size: 10px; font-weight: 800; color: var(--gold); letter-spacing: 0.8px;">MESA 14 CONECTADA!</div>
+              <div style="font-size: 13px; font-weight: 800; color: #fff;">Tire a Foto & Carimbe o Selo Final!</div>
+              <div style="font-size: 11px; color: var(--text-sub);">Falta apenas este clique para o Brinde Lendário.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Viewfinder Pro -->
+        <div class="camera-viewfinder" id="mobViewfinderWrapper">
+          
+          <!-- Reticles nos 4 cantos -->
+          <div class="reticle-corner-mob reticle-tl-mob"></div>
+          <div class="reticle-corner-mob reticle-tr-mob"></div>
+          <div class="reticle-corner-mob reticle-bl-mob"></div>
+          <div class="reticle-corner-mob reticle-br-mob"></div>
+
+          <!-- Video Webcam Feed -->
+          <video id="webcamVideoMobile" autoplay playsinline muted></video>
+
+          <!-- Fallback Imagem -->
+          <img id="fallbackPhotoMobile" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80" alt="Churrasco Mesa Sem-Banha">
+
+          <!-- Canvas da Foto Final -->
+          <canvas id="mobileCaptureCanvas"></canvas>
+
+          <!-- Flash de Disparo -->
+          <div id="flashOverlay" class="flash-overlay"></div>
+
+          <!-- Moldura e Badges Overlay -->
+          <div class="viewfinder-overlay frame-parrilla-mob" id="mobFrameOverlay">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 800; color: #fff; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 20px;">
+                <div style="width: 6px; height: 6px; background: red; border-radius: 50%; box-shadow: 0 0 6px red;"></div>
+                <span id="mobCamStatusText">AO VIVO</span>
+              </div>
+              <div style="background: rgba(0,0,0,0.65); padding: 4px 10px; border-radius: 12px; font-family:var(--font-display); font-size: 10px; font-weight: 800; color: #fff; border: 1px solid rgba(255,255,255,0.2);">
+                🔥 SEM-BANHA
+              </div>
+            </div>
+
+            <!-- Marca d'água da comitiva -->
+            <div style="background: rgba(10,10,14,0.85); border: 1px solid var(--border-gold); border-radius: 8px; padding: 6px 10px; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-size: 11px; font-weight: 800; color: var(--gold);" id="mobStickerLabel">👑 Comitiva da Brasa</div>
+                <div style="font-size: 9px; color: var(--text-sub);">Mesa 14 • Noite Épica</div>
+              </div>
+              <div style="font-size: 10px; color: var(--primary); font-weight: 800;">#Selo08</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controles da Câmera -->
+        <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 12px;">
+          <div class="cat-chip active" onclick="setMobileFrame('parrilla', this)">🔥 Parrilla</div>
+          <div class="cat-chip" onclick="setMobileFrame('gold', this)">👑 Ouro VIP</div>
+          <div class="cat-chip" onclick="setMobileFrame('chopp', this)">🍺 Chopp</div>
+        </div>
+
+        <!-- Shutter Controls -->
+        <div class="shutter-btn-row">
+          <div class="btn-icon-header" style="width: 44px; height: 44px;" onclick="toggleMobileCameraSource()" title="Alternar Câmera / Demonstração">🔄</div>
+          
+          <div class="shutter-btn" onclick="triggerMobileCapture()" title="Tirar Foto">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+          </div>
+
+          <div class="btn-icon-header" style="width: 44px; height: 44px;" onclick="downloadMobilePhoto()" title="Baixar Foto">⬇️</div>
+        </div>
+
+        <button class="btn-primary-large" style="margin-top: 10px;" onclick="saveMobilePhotoAndStamp()">
+          ⭐ Salvar Foto & Carimbar Selo #08
+        </button>
+      </section>
+
+      <!-- ========================================================
+           TELA 4: PASSAPORTE FIDELIDADE PITMASTER
+           ======================================================== -->
+      <section id="screenStamps" class="screen">
+        <div class="passport-banner" style="border-width: 1.5px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div class="banner-tag">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+              <span>PASSAPORTE PITMASTER</span>
+            </div>
+            <span class="stamp-pill" id="stampsCountFinal" style="color: var(--gold); border-color: var(--gold);">8 / 8 SELOS</span>
+          </div>
+          <div class="banner-title" style="font-size: 18px;">Parabéns, Pitmaster!</div>
+          <div class="banner-desc">Vocês conquistaram o status Pitmaster Ouro e desbloquearam o brinde supremo da casa!</div>
+        </div>
+
+        <!-- Grade de Selos -->
+        <div class="bill-header-card">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <span style="font-family:var(--font-display); font-size: 13px; font-weight: 800; color: #fff;">Carimbos de Conquista</span>
+            <span style="font-size: 10px; color: var(--gold);">Autenticado pelo Fogo</span>
+          </div>
+          <div class="stamps-grid" id="mobileStampsGrid"></div>
+        </div>
+
+        <!-- Brinde Desbloqueado com Voucher -->
+        <div class="passport-banner" style="margin-top: 14px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <div style="background: var(--primary); padding: 6px; border-radius: 6px;">🎁</div>
+            <div>
+              <div style="font-size: 9px; font-weight: 800; color: var(--gold);">BRINDE LIBERADO!</div>
+              <div style="font-size: 13px; font-weight: 800; color: #fff;">Tábua Degustação Premium + Chope Artesanal</div>
+            </div>
+          </div>
+          <div class="banner-desc">Apresente este voucher para o Garçom Rodrigo Silva na Mesa 14:</div>
+
+          <div style="background: #000; border: 1px dashed var(--gold); border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin: 12px 0;">
+            <div>
+              <div style="font-size: 9px; color: var(--text-muted); font-weight: 800;">CÓDIGO DE RESGATE MESA 14</div>
+              <div style="font-size: 14px; font-weight: 800; color: var(--gold); letter-spacing: 1px;">#SEMBANHA-8SELOS-VIP</div>
+            </div>
+            <button style="background: transparent; border: 1px solid var(--border); color: var(--gold); padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;" onclick="copyVoucherCode()">📋 Copiar</button>
+          </div>
+
+          <button class="btn-primary-large" id="btnResgatar" onclick="openRedeemModal()">
+            Validar Voucher com Garçom
+          </button>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           TELA 5: DETALHES DO PRATO (Modal Sheet Completo)
+           ======================================================== -->
+      <section id="screenDishDetail" class="screen" style="padding-top: 0;">
+        <div class="dish-detail-hero">
+          <div class="btn-back-dish" onclick="closeDishDetail()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </div>
+          <img id="dishDetailImg" src="" alt="Prato">
+          <div class="overlay"></div>
+          <div class="food-badge" id="dishDetailTag" style="bottom: 16px; top: auto; left: 16px;">
+            🔥 DEFUMADO & LENHA
+          </div>
+        </div>
+
+        <div style="font-family:var(--font-display); font-size: 19px; font-weight: 800; color: #fff; margin-bottom: 4px;" id="dishDetailName">
+          Costela 12 Horas no Fogo de Chão
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 12px;">
+          <span style="font-family:var(--font-accent); font-size: 22px; font-weight: 800; color: var(--primary);" id="dishDetailPrice">R$ 119,00</span>
+          <span style="font-size: 12px; color: var(--text-muted);">/ porção da mesa</span>
+        </div>
+
+        <div style="font-size: 12px; color: var(--text-sub); line-height: 1.55; margin-bottom: 14px;" id="dishDetailDesc">
+          Corte nobre assado lentamente em lenha de angico por 12 horas. Desmancha no osso, acompanha mandioca cozida e farofa.
+        </div>
+
+        <div style="background: rgba(35, 24, 14, 0.6); border: 1px solid var(--border-gold); border-radius: 10px; padding: 12px; margin-bottom: 16px; display: flex; gap: 10px;">
+          <div style="font-size: 20px;">🍷</div>
+          <div>
+            <div style="font-size: 11px; font-weight: 800; color: var(--gold);">Harmonização do Sommelier</div>
+            <div style="font-size: 11px; color: var(--text-sub);" id="dishDetailPairing">Vinho Tannat encorpado ou Chopp Sem-Banha Puro Malte.</div>
+          </div>
+        </div>
+
+        <!-- Ponto da Carne -->
+        <div style="font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 8px;">Ponto da Parrilla:</div>
+        <div class="custom-radio-row selected" onclick="selectRadio(this)">
+          <span>Ao Ponto do Chef</span>
+          <span style="color: var(--green); font-size: 11px; font-weight: 700;">Recomendado</span>
+        </div>
+        <div class="custom-radio-row" onclick="selectRadio(this)">
+          <span>Ao Ponto para Menos</span>
+          <span style="color: var(--text-muted); font-size: 11px;">Suculento</span>
+        </div>
+        <div class="custom-radio-row" onclick="selectRadio(this)">
+          <span>Bem Passada</span>
+          <span style="color: var(--text-muted); font-size: 11px;">Tostadinho</span>
+        </div>
+
+        <!-- Adicionais -->
+        <div style="font-size: 12px; font-weight: 800; color: #fff; margin: 14px 0 8px 0;">Adicionais Especiais:</div>
+        <div class="custom-check-row" onclick="toggleCheckbox(this, 12.00)">
+          <span>Farofa da Casa Crocante</span>
+          <span style="color: var(--gold); font-size: 11px; font-weight: 700;">+ R$ 12,00</span>
+        </div>
+        <div class="custom-check-row" onclick="toggleCheckbox(this, 14.00)">
+          <span>Queijo Coalho Tostado na Brasa</span>
+          <span style="color: var(--gold); font-size: 11px; font-weight: 700;">+ R$ 14,00</span>
+        </div>
+
+        <!-- Barra Inferior do Prato -->
+        <div class="bottom-cta-fixed" style="display: flex; gap: 10px; align-items: center;">
+          <div style="display: flex; align-items: center; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; height: 46px; padding: 0 6px;">
+            <button style="background: transparent; border: none; color: #fff; font-size: 18px; padding: 6px; cursor: pointer;" onclick="changeQty(-1)">-</button>
+            <span id="dishQty" style="font-family:var(--font-accent); font-size: 16px; font-weight: 800; min-width: 24px; text-align: center;">1</span>
+            <button style="background: transparent; border: none; color: var(--primary); font-size: 18px; padding: 6px; cursor: pointer;" onclick="changeQty(1)">+</button>
+          </div>
+          <button class="btn-primary-large" style="flex: 1;" onclick="addDishToCart()">
+            PEDIR • <span id="dishTotalBtn">R$ 119,00</span>
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION DOCK (Aparece após Login) -->
+    <nav class="bottom-nav" id="mainBottomNav" style="display: none;">
+      <div class="nav-item active" id="navMenu" onclick="switchTab(0)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        <span>Cardápio</span>
+      </div>
+      <div class="nav-item" id="navBill" onclick="switchTab(1)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16l4-2 4 2 4-2 4 2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+        <div class="badge-dot" style="top: 0; right: 10px;"></div>
+        <span>Comanda</span>
+      </div>
+      <div class="nav-item" id="navCamera" onclick="switchTab(2)">
+        <div class="camera-btn-nav">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+        </div>
+        <span>Câmera</span>
+      </div>
+      <div class="nav-item" id="navStamps" onclick="switchTab(3)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+        <span>Selos</span>
+      </div>
+    </nav>
+
+    <!-- MODAL QR CODE PIX -->
+    <div id="modalQr" class="modal-overlay" onclick="closeQrModal()">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <div style="width: 38px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px auto;"></div>
+        <div style="font-family:var(--font-display); font-size: 18px; font-weight: 800; color: #fff;">PIX Instantâneo</div>
+        <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 14px;">Aponte o app do banco ou copie a chave</div>
+        <div style="background: #fff; padding: 12px; border-radius: 12px; display: inline-block; margin-bottom: 14px;">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=00020126580014BR.GOV.BCB.PIX0136sembanha-mesa14@pix.com.br" alt="QR Code Pix" style="width:160px; height:160px; object-fit:contain;">
+        </div>
+        <div style="font-family:var(--font-accent); font-size: 22px; font-weight: 800; color: var(--primary); margin-bottom: 14px;" id="pixModalAmountMobile">R$ 350,80</div>
+        <button class="btn-primary-large" onclick="copyPixCodeMobile()">
+          📋 COPIAR CHAVE PIX
+        </button>
+      </div>
+    </div>
+
+    <!-- MODAL RESGATE COM GARÇOM -->
+    <div id="modalRedeem" class="modal-overlay" onclick="closeRedeemModal()">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <div style="width: 38px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px auto;"></div>
+        <div style="font-family:var(--font-display); font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 4px;">Validar Voucher</div>
+        <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 14px;">Apresente este código para o Garçom Rodrigo Silva:</div>
+        <div style="background: #000; border: 1px dashed var(--gold); border-radius: 8px; padding: 12px; font-size: 16px; font-weight: 800; color: var(--gold); letter-spacing: 1px; margin-bottom: 14px;">
+          #SEMBANHA-8SELOS-VIP
+        </div>
+        <button class="btn-primary-large" onclick="confirmRedeemMobile()">
+          CONFIRMAR COM GARÇOM
+        </button>
+      </div>
+    </div>
+
+    <!-- MODAL CHAMAR GARÇOM VIP -->
+    <div id="modalWaiterMob" class="modal-overlay" onclick="closeWaiterModalMobile()">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <div style="width: 38px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 14px auto;"></div>
+        <div style="font-size:32px; margin-bottom:6px;">🛎️</div>
+        <div style="font-family:var(--font-display); font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 4px;">Atendimento VIP • Mesa 14</div>
+        <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 16px;">Garçom Rodrigo Silva está no salão principal.</div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:18px;">
+          <button style="background:rgba(25,25,35,0.9); border:1px solid var(--border); color:#fff; padding:10px; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer;" onclick="quickRequestMob('Água Gelada')">💧 Água Gelada</button>
+          <button style="background:rgba(25,25,35,0.9); border:1px solid var(--border); color:#fff; padding:10px; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer;" onclick="quickRequestMob('Gelo & Limão')">🧊 Gelo & Limão</button>
+          <button style="background:rgba(25,25,35,0.9); border:1px solid var(--border); color:#fff; padding:10px; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer;" onclick="quickRequestMob('Trocar Pratos')">🍽️ Trocar Pratos</button>
+          <button style="background:rgba(25,25,35,0.9); border:1px solid var(--border); color:#fff; padding:10px; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer;" onclick="quickRequestMob('Trazer Maquininha')">💳 Maquininha</button>
+        </div>
+
+        <button class="btn-primary-large" onclick="confirmCallWaiterMob()">
+          🔔 Notificar Garçom na Mesa
+        </button>
+      </div>
+    </div>
+
+    <!-- MODAL ESQUECEU A SENHA -->
+    <div id="modalForgotPass" class="modal-overlay" onclick="closeForgotPassModal()">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <div style="width: 38px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px auto;"></div>
+        <div style="font-size: 30px; margin-bottom: 6px;">🔑</div>
+        <div style="font-family:var(--font-display); font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 4px;">Recuperar Acesso</div>
+        <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 16px;">Informe seu e-mail cadastrado para receber o link de redefinição imediato:</div>
+
+        <div class="auth-field" style="text-align: left; margin-bottom: 16px;">
+          <label class="auth-label" for="recoveryEmailInput">Seu E-mail Cadastrado</label>
+          <div class="auth-input-wrapper">
+            <span class="auth-input-icon">✉️</span>
+            <input type="email" id="recoveryEmailInput" class="auth-input" placeholder="seu@email.com">
+          </div>
+        </div>
+
+        <button class="btn-primary-large" onclick="handleSendPasswordReset()">
+          ENVIAR LINK DE REDEFINIÇÃO
+        </button>
+      </div>
+    </div>
+
+    <!-- MODAL PERFIL DO USUÁRIO / SESSÃO -->
+    <div id="modalUserProfile" class="modal-overlay" onclick="closeUserProfileModal()">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <div style="width: 38px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px auto;"></div>
+        
+        <div class="user-profile-header">
+          <div class="user-avatar-large" id="modalUserAvatar">👤</div>
+          <div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff;" id="modalUserName">Cliente Convidado</div>
+            <div style="font-size: 12px; color: var(--text-muted);" id="modalUserEmail">convidado@mesa14.local</div>
+            <div style="font-size: 10px; font-weight: 700; color: var(--gold); margin-top: 4px;" id="modalUserBadge">MESA 14 • CONVIDADO</div>
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-around; text-align: center;">
+          <div>
+            <div style="font-size: 10px; color: var(--text-muted); font-weight: 700;">CONTA</div>
+            <div style="font-size: 13px; font-weight: 800; color: #fff;" id="modalUserType">VIP</div>
+          </div>
+          <div style="border-left: 1px solid var(--border);"></div>
+          <div>
+            <div style="font-size: 10px; color: var(--text-muted); font-weight: 700;">SELOS PITMASTER</div>
+            <div style="font-size: 13px; font-weight: 800; color: var(--gold);" id="modalUserStamps">7 / 8</div>
+          </div>
+          <div style="border-left: 1px solid var(--border);"></div>
+          <div>
+            <div style="font-size: 10px; color: var(--text-muted); font-weight: 700;">MESA ATIVA</div>
+            <div style="font-size: 13px; font-weight: 800; color: var(--green);">Mesa 14</div>
+          </div>
+        </div>
+
+        <button class="btn-primary-large" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #ef4444; box-shadow: none;" onclick="handleWebLogout()">
+          🚪 SAIR / TROCAR DE CONTA
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Catálogo de Pratos Completo (Com imagens sincronizadas)
+    const dishes = [
+      {
+        id: 'costela_bbq',
+        name: 'Costela 12 Horas no Fogo de Chão',
+        tag: 'ASSINATURA PITMASTER',
+        portion: 'Serve 2 a 3 pessoas',
+        price: 119.00,
+        desc: 'Corte nobre assado lentamente em lenha de angico por 12 horas. Desmancha no osso, acompanha mandioca na manteiga de garrafa e farofa crocante.',
+        img: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&q=80',
+        pairing: 'Vinho Tannat encorpado ou Chopp Sem-Banha Puro Malte.',
+        category: 'cortes'
+      },
+      {
+        id: 'feijoada',
+        name: 'Feijoada Completa da Casa',
+        tag: 'CLÁSSICO BRASILEIRO',
+        portion: 'Serve 2 a 3 pessoas',
+        price: 89.90,
+        desc: 'Tradicional feijoada em panela de barro com carnes nobres defumadas na brasa, arroz branco, couve refogada no alho, farofa crocante e bacon.',
+        img: 'images/feijoada.jpg',
+        pairing: 'Cachaça artesanal de alambique envelhecida em amburana.',
+        category: 'all'
+      },
+      {
+        id: 'baiao',
+        name: 'Baião de Dois do Sertão',
+        tag: 'TRADIÇÃO NORDESTINA',
+        portion: 'Serve 2 pessoas',
+        price: 74.90,
+        desc: 'Arroz da terra, feijão fradinho, queijo coalho tostado na brasa, carne de sol desfiada e manteiga de garrafa.',
+        img: 'images/baiao.jpg',
+        pairing: 'Chopp IPA artesanal com notas cítricas.',
+        category: 'all'
+      },
+      {
+        id: 'escondidinho',
+        name: 'Escondidinho de Carne Seca Gratinado',
+        tag: 'FORNO & LENHA',
+        portion: 'Individual generoso',
+        price: 68.00,
+        desc: 'Creme aveludado de mandioca na brasa, recheio generoso de carne seca desfiada e gratinado com queijo da Canastra.',
+        img: 'images/escondidinho.jpg',
+        pairing: 'Vinho Syrah de colheita de inverno.',
+        category: 'all'
+      },
+      {
+        id: 'strogonoff',
+        name: 'Strogonoff de Filé Mignon',
+        tag: 'PREFERIDO DA FAMÍLIA',
+        portion: 'Serve 1 a 2 pessoas',
+        price: 72.50,
+        desc: 'Tiras de filé mignon grelhadas no fogo alto, molho cremoso com cogumelos frescos, arroz branco e batata palha artesanal ultra crocante.',
+        img: 'images/strogonoff.jpg',
+        pairing: 'Vinho Pinot Noir ou Chopp American Pilsner.',
+        category: 'all'
+      },
+      {
+        id: 'torresmo',
+        name: 'Torresmo de Rolo Parrillero',
+        tag: 'CROCANTE & PURURUCA',
+        portion: 'Porção petisco da galera',
+        price: 48.90,
+        desc: 'Panceta enrolada e defumada por 4 horas, fatiada e pururucada na hora com limão caipira e geleia de pimenta da casa.',
+        img: 'images/torresmo.jpg',
+        pairing: 'Chopp Pilsen extra trincando de gelado.',
+        category: 'petiscos'
+      },
+      {
+        id: 'burger',
+        name: 'Burger Sem-Banha Smoked Bacon',
+        tag: 'BURGER PARRILLA',
+        portion: 'Individual + Fritas',
+        price: 46.00,
+        desc: 'Blend 200g de costela angus defumada, queijo cheddar inglês, bacon artesanal em tiras crocantes e maionese defumada.',
+        img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80',
+        pairing: 'Chopp Session IPA artesanal.',
+        category: 'cortes'
+      },
+      {
+        id: 'torre_chopp',
+        name: 'Torre Chopp Sem-Banha 2.5L',
+        tag: 'PRA MESA TODA',
+        portion: '2.5 Litros Gelados',
+        price: 79.90,
+        desc: 'Torre giratória com tubo congelador para manter o chopp gelado até o último gole. Ideal para a mesa toda.',
+        img: 'images/torre_chopp.jpg',
+        pairing: 'Perfeita para acompanhar todas as carnes da parrilla.',
+        category: 'bebidas'
+      },
+      {
+        id: 'chimarrao',
+        name: 'Chimarrão Tradicional Gaúcho',
+        tag: 'EXPERIÊNCIA DO SUL',
+        portion: 'Cuia individual + Garrafa térmica',
+        price: 38.00,
+        desc: 'Autêntica cuia tradicional de porongo com bomba de alpaca, erva-mate pura folha moída fresca e água aquecida no ponto exato da brasa.',
+        img: 'images/chimarrao.jpg',
+        pairing: 'Excelente digestivo pós-churrasco.',
+        category: 'bebidas'
+      },
+      {
+        id: 'pudim',
+        name: 'Pudim de Leite Defumado na Brasa',
+        tag: 'SOBREMESA ESPECIAL',
+        portion: 'Fatia individual nobre',
+        price: 26.00,
+        desc: 'Pudim lisinho com infusão leve de fumaça de maçã na calda de caramelo dourado. Uma explosão sensorial inesquecível.',
+        img: 'images/pudim.jpg',
+        pairing: 'Café espresso ou licor de doce de leite.',
+        category: 'sobremesas'
+      }
+    ];
+
+    // Carimbos do Passaporte
+    const stampsData = [
+      { date: '15/MAR', title: 'Picanha' },
+      { date: '24/ABR', title: 'Chopp' },
+      { date: '12/FEV', title: 'Torresmo' },
+      { date: '05/MAI', title: 'Burger' },
+      { date: '19/MAI', title: 'Costela' },
+      { date: '28/ABR', title: 'Brisket' },
+      { date: '10/JUL', title: 'Baião' },
+      { date: 'HOJE', title: 'Mesa 14' }
+    ];
+
+    // Comanda Digital da Mesa 14 (Inicia zerada ao entrar pela 1ª vez)
+    let mobileComandaItems = [];
+
+    let currentStamps = 7;
+    let selectedDish = dishes[0];
+    let dishQty = 1;
+    let extraSauceTotal = 0;
+    let selectedTip = 10;
+    let selectedPaymentMethod = 'pix';
+    let webcamStreamMobile = null;
+    let capturedPhotoMobileData = null;
+    let isUsingFallbackMobile = true;
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    // Web Audio API
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const icon = document.getElementById('soundIconMob');
+      if (soundEnabled) {
+        icon.innerText = '🔊';
+        playSound('chime');
+        showToast('🔊 Efeitos sonoros ativados.');
+      } else {
+        icon.innerText = '🔇';
+        showToast('🔇 Efeitos sonoros desativados.');
+      }
+    }
+
+    function playSound(type) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const t = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'shutter') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, t);
+          osc.frequency.exponentialRampToValueAtTime(120, t + 0.08);
+          gain.gain.setValueAtTime(0.4, t);
+          gain.gain.exponentialRampToValueAtTime(0.01, t + 0.08);
+          osc.start(t);
+          osc.stop(t + 0.09);
+        } else if (type === 'chime') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(587.33, t);
+          osc.frequency.setValueAtTime(880, t + 0.08);
+          gain.gain.setValueAtTime(0.2, t);
+          gain.gain.exponentialRampToValueAtTime(0.01, t + 0.28);
+          osc.start(t);
+          osc.stop(t + 0.3);
+        } else if (type === 'bell') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1200, t);
+          gain.gain.setValueAtTime(0.3, t);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.6);
+          osc.start(t);
+          osc.stop(t + 0.6);
+        } else if (type === 'fanfare') {
+          const notes = [523.25, 659.25, 783.99, 1046.50];
+          notes.forEach((freq, idx) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.connect(g);
+            g.connect(audioCtx.destination);
+            o.type = 'triangle';
+            o.frequency.setValueAtTime(freq, t + idx * 0.09);
+            g.gain.setValueAtTime(0.25, t + idx * 0.09);
+            g.gain.exponentialRampToValueAtTime(0.01, t + idx * 0.09 + 0.3);
+            o.start(t + idx * 0.09);
+            o.stop(t + idx * 0.09 + 0.35);
+          });
+        }
+      } catch (e) {}
+    }
+
+    // Estado de Autenticação / Sessão
+    let currentUser = null;
+
+    // Inicialização
+    function init() {
+      renderDishes(dishes);
+      renderStamps();
+      renderMobileBill();
+      initEmberParticles();
+
+      // Sempre inicia na tela de Login & Cadastro no começo
+      showAuthScreen();
+
+      // Se houver e-mail previamente salvo, preenche o campo
+      try {
+        const saved = localStorage.getItem('brasa_user');
+        if (saved) {
+          const user = JSON.parse(saved);
+          if (user.email && document.getElementById('loginEmail')) {
+            document.getElementById('loginEmail').value = user.email;
+          }
+        }
+      } catch (e) {}
+    }
+
+    function switchAuthTab(tab) {
+      const btnLogin = document.getElementById('tabBtnLogin');
+      const btnReg = document.getElementById('tabBtnRegister');
+      const formLogin = document.getElementById('authFormLogin');
+      const formReg = document.getElementById('authFormRegister');
+
+      if (tab === 'login') {
+        btnLogin.classList.add('active');
+        btnReg.classList.remove('active');
+        formLogin.style.display = 'block';
+        formReg.style.display = 'none';
+      } else {
+        btnReg.classList.add('active');
+        btnLogin.classList.remove('active');
+        formReg.style.display = 'none';
+        formLogin.style.display = 'none';
+        formReg.style.display = 'block';
+      }
+    }
+
+    function togglePassVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerText = '🙈';
+      } else {
+        input.type = 'password';
+        btn.innerText = '👁️';
+      }
+    }
+
+    function openForgotPassModal() {
+      const email = document.getElementById('loginEmail').value.trim();
+      if (email) document.getElementById('recoveryEmailInput').value = email;
+      document.getElementById('modalForgotPass').classList.add('active');
+    }
+
+    function closeForgotPassModal() {
+      document.getElementById('modalForgotPass').classList.remove('active');
+    }
+
+    // ============================================================
+    // BASE DE DADOS DE USUÁRIOS E SENHAS (Validação Real)
+    // ============================================================
+    const DEFAULT_ACCOUNTS = [
+      {
+        name: 'Ycaro Ferreira',
+        email: 'ycaro@brasaviva.com',
+        phone: '(11) 98765-4321',
+        password: '123456',
+        table: 'Mesa 14 VIP'
+      },
+      {
+        name: 'Professor Avaliador',
+        email: 'professor@restaurante.com',
+        phone: '(11) 99999-8888',
+        password: 'admin',
+        table: 'Mesa 14 VIP'
+      }
+    ];
+
+    function getRegisteredAccounts() {
+      try {
+        const stored = localStorage.getItem('brasa_registered_accounts');
+        if (stored) {
+          const list = JSON.parse(stored);
+          if (Array.isArray(list) && list.length > 0) return list;
+        }
+      } catch (e) {}
+      localStorage.setItem('brasa_registered_accounts', JSON.stringify(DEFAULT_ACCOUNTS));
+      return DEFAULT_ACCOUNTS;
+    }
+
+    function saveAccount(acc) {
+      const list = getRegisteredAccounts();
+      const cleanEmail = acc.email.trim().toLowerCase();
+      const idx = list.findIndex(a => a.email.toLowerCase() === cleanEmail);
+      if (idx >= 0) {
+        list[idx] = acc;
+      } else {
+        list.push(acc);
+      }
+      localStorage.setItem('brasa_registered_accounts', JSON.stringify(list));
+    }
+
+    function handleSendPasswordReset() {
+      const email = document.getElementById('recoveryEmailInput').value.trim();
+      if (!email || !email.includes('@')) {
+        playSound('shutter');
+        showToast('⚠️ Informe um e-mail válido para recuperação!');
+        return;
+      }
+      const accounts = getRegisteredAccounts();
+      const acc = accounts.find(a => a.email.toLowerCase() === email.toLowerCase());
+      closeForgotPassModal();
+
+      if (!acc) {
+        playSound('shutter');
+        showToast('❌ E-mail não encontrado no cadastro!');
+        return;
+      }
+
+      // Redefine a senha para 123456
+      acc.password = '123456';
+      saveAccount(acc);
+      playSound('chime');
+      showToast(`🔑 Senha redefinida para "123456"! Faça login agora.`);
+      if (document.getElementById('loginEmail')) document.getElementById('loginEmail').value = acc.email;
+      if (document.getElementById('loginPass')) document.getElementById('loginPass').value = '123456';
+    }
+
+    function openUserProfileModal() {
+      if (!currentUser) {
+        showAuthScreen();
+        return;
+      }
+      document.getElementById('modalUserName').innerText = currentUser.name;
+      document.getElementById('modalUserEmail').innerText = currentUser.email;
+      document.getElementById('modalUserBadge').innerText = currentUser.isGuest ? 'MESA 14 • CONVIDADO' : 'CLIENTE VIP • FIDELIDADE';
+      document.getElementById('modalUserType').innerText = currentUser.isGuest ? 'CONVIDADO' : 'VIP BRASA';
+      document.getElementById('modalUserStamps').innerText = `${currentStamps} / 8`;
+      document.getElementById('modalUserAvatar').innerText = currentUser.isGuest ? '🍽️' : (currentUser.name ? currentUser.name[0].toUpperCase() : '👤');
+      document.getElementById('modalUserProfile').classList.add('active');
+    }
+
+    function closeUserProfileModal() {
+      document.getElementById('modalUserProfile').classList.remove('active');
+    }
+
+    function applyUserSession(user, showWelcome = true) {
+      currentUser = user;
+      
+      const topHeader = document.getElementById('mainTopHeader');
+      if (topHeader) topHeader.style.display = 'flex';
+      const bottomNav = document.getElementById('mainBottomNav');
+      if (bottomNav) bottomNav.style.display = 'flex';
+
+      const userBtn = document.getElementById('userAccountIconMob');
+      if (userBtn) userBtn.innerText = user.isGuest ? '🍽️' : user.name[0].toUpperCase();
+      
+      const authScreen = document.getElementById('screenAuth');
+      if (authScreen) authScreen.classList.remove('active');
+      
+      switchTab(0);
+      if (showWelcome) {
+        playSound('bell');
+        showToast(`🔥 Bem-vindo ao Brasa Viva, ${user.name}!`);
+      }
+    }
+
+    function handleWebLogin() {
+      const emailInput = document.getElementById('loginEmail');
+      const passInput = document.getElementById('loginPass');
+      const email = emailInput.value.trim();
+      const pass = passInput.value.trim();
+      const remember = document.getElementById('loginRemember').checked;
+
+      if (!email) {
+        playSound('shutter');
+        showToast('⚠️ Informe seu e-mail ou usuário!');
+        emailInput.focus();
+        return;
+      }
+      if (!pass) {
+        playSound('shutter');
+        showToast('⚠️ Digite sua senha de acesso!');
+        passInput.focus();
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmitLogin');
+      const text = document.getElementById('btnSubmitLoginText');
+      btn.classList.add('loading');
+      text.innerText = 'AUTENTICANDO CREDENCIAIS...';
+
+      setTimeout(() => {
+        btn.classList.remove('loading');
+        text.innerText = 'ACESSAR MINHA CONTA';
+
+        const accounts = getRegisteredAccounts();
+        const cleanEmail = email.toLowerCase();
+        const account = accounts.find(
+          acc => acc.email.toLowerCase() === cleanEmail || (acc.phone && acc.phone.replace(/\D/g, '') === email.replace(/\D/g, ''))
+        );
+
+        if (!account) {
+          playSound('shutter');
+          showToast('❌ Conta não encontrada! Verifique o e-mail ou crie uma conta.');
+          emailInput.style.borderColor = 'var(--red)';
+          setTimeout(() => emailInput.style.borderColor = '', 2500);
+          return;
+        }
+
+        // VALIDAÇÃO ESTRITA DE SENHA
+        if (account.password !== pass) {
+          playSound('shutter');
+          showToast('❌ Senha incorreta! Digite a senha cadastrada.');
+          passInput.style.borderColor = 'var(--red)';
+          passInput.value = '';
+          passInput.focus();
+          setTimeout(() => passInput.style.borderColor = '', 2500);
+          return; // BLOQUEIA ACESSO IMEDIATAMENTE
+        }
+
+        // Senha correta: faz o login com sucesso
+        const user = {
+          name: account.name,
+          email: account.email,
+          phone: account.phone || '(11) 98765-4321',
+          isGuest: false,
+          table: account.table || 'Mesa 14 VIP'
+        };
+
+        if (remember) {
+          localStorage.setItem('brasa_user', JSON.stringify(user));
+        } else {
+          localStorage.removeItem('brasa_user');
+        }
+
+        applyUserSession(user);
+      }, 500);
+    }
+
+    function handleWebRegister() {
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const pass = document.getElementById('regPass').value.trim();
+      const terms = document.getElementById('regTerms').checked;
+
+      if (!name) {
+        playSound('shutter');
+        showToast('⚠️ Informe seu nome completo!');
+        return;
+      }
+      if (!email || !email.includes('@')) {
+        playSound('shutter');
+        showToast('⚠️ Informe um e-mail válido!');
+        return;
+      }
+      if (pass.length < 4) {
+        playSound('shutter');
+        showToast('⚠️ Senha deve conter no mínimo 4 caracteres!');
+        return;
+      }
+      if (!terms) {
+        playSound('shutter');
+        showToast('⚠️ Aceite os termos para criar sua conta!');
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmitRegister');
+      const text = document.getElementById('btnSubmitRegisterText');
+      btn.classList.add('loading');
+      text.innerText = 'CRIANDO CONTA VIP...';
+
+      setTimeout(() => {
+        btn.classList.remove('loading');
+        text.innerText = 'CADASTRAR E RECEBER BENEFÍCIOS';
+
+        const newAccount = {
+          name: name,
+          email: email.toLowerCase(),
+          phone: phone || '(11) 98888-7777',
+          password: pass,
+          isGuest: false,
+          table: 'Mesa 14 VIP'
+        };
+
+        // Salva a nova conta com senha no banco de contas local
+        saveAccount(newAccount);
+
+        const user = {
+          name: name,
+          email: email,
+          phone: phone,
+          isGuest: false,
+          table: 'Mesa 14 VIP'
+        };
+
+        localStorage.setItem('brasa_user', JSON.stringify(user));
+        applyUserSession(user, false);
+        triggerConfettiMobile();
+        playSound('fanfare');
+        showToast(`🎉 Conta criada com sucesso! Sua senha foi cadastrada.`);
+      }, 600);
+    }
+
+    function handleGuestAuth() {
+      const user = {
+        name: 'Convidado Mesa 14',
+        email: 'convidado@mesa14.local',
+        isGuest: true,
+        table: 'Mesa 14'
+      };
+
+      applyUserSession(user);
+      playSound('chime');
+      showToast('Acesso liberado como Convidado da Mesa 14');
+    }
+
+    function handleSocialAuth(provider) {
+      const email = `usuario.${provider.toLowerCase()}@exemplo.com`;
+      const socialAccount = {
+        name: `Cliente ${provider}`,
+        email: email,
+        phone: '(11) 99999-0000',
+        password: 'social_login',
+        isGuest: false,
+        table: 'Mesa 14 VIP'
+      };
+      saveAccount(socialAccount);
+      applyUserSession(socialAccount);
+      playSound('bell');
+      showToast(`Autenticado via ${provider} com sucesso!`);
+    }
+
+    function handleWebLogout() {
+      closeUserProfileModal();
+      currentUser = null;
+      localStorage.removeItem('brasa_user');
+      document.getElementById('userAccountIconMob').innerText = '👤';
+      showAuthScreen();
+      playSound('shutter');
+      showToast('Sessão encerrada com sucesso.');
+    }
+
+    function showAuthScreen() {
+      const screens = ['screenMenu', 'screenBill', 'screenCamera', 'screenStamps', 'screenDishDetail'];
+      screens.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('active');
+      });
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const authScreen = document.getElementById('screenAuth');
+      if (authScreen) authScreen.classList.add('active');
+      
+      const topHeader = document.getElementById('mainTopHeader');
+      if (topHeader) topHeader.style.display = 'none';
+      const bottomNav = document.getElementById('mainBottomNav');
+      if (bottomNav) bottomNav.style.display = 'none';
+      const floatingComanda = document.getElementById('floatingComanda');
+      if (floatingComanda) floatingComanda.style.display = 'none';
+
+      document.querySelector('.screens-container').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderDishes(items) {
+      const container = document.getElementById('dishesList');
+      container.innerHTML = '';
+      items.forEach(dish => {
+        const card = document.createElement('div');
+        card.className = 'food-card';
+        card.onclick = () => openDishDetail(dish);
+        card.innerHTML = `
+          <div class="food-img-wrapper">
+            <img class="food-img" src="${dish.img}" alt="${dish.name}" loading="lazy">
+            <div class="food-badge">🔥 <span>${dish.tag}</span></div>
+            <div class="portion-badge">${dish.portion}</div>
+          </div>
+          <div class="food-card-body">
+            <div class="food-title">${dish.name}</div>
+            <div class="food-desc">${dish.desc}</div>
+            <div class="food-footer">
+              <div>
+                <div class="price-label">PARRILLA & BRASA</div>
+                <div class="price-value">R$ ${dish.price.toFixed(2).replace('.', ',')}</div>
+              </div>
+              <button class="btn-add" onclick="event.stopPropagation(); openDishDetail(dishes.find(d => d.id === '${dish.id}'))">
+                + Pedir
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      document.getElementById('menuDishesCount').innerText = `${items.length} cortes disponíveis`;
+    }
+
+    function renderStamps() {
+      const grid = document.getElementById('mobileStampsGrid');
+      grid.innerHTML = '';
+      stampsData.forEach((s, idx) => {
+        const isDone = idx < currentStamps;
+        const box = document.createElement('div');
+        box.className = `stamp-box ${isDone ? 'completed' : ''}`;
+        box.innerHTML = `
+          <div class="stamp-circle">${isDone ? '👑' : (idx + 1)}</div>
+          <div style="font-size: 10px; font-weight: 700; color: ${isDone ? '#fff' : 'var(--text-muted)'};">${s.date}</div>
+          <div style="font-size: 9px; color: ${isDone ? 'var(--gold)' : 'var(--text-muted)'};">${s.title}</div>
+        `;
+        grid.appendChild(box);
+      });
+
+      document.getElementById('menuStampCounter').innerText = `${currentStamps} / 8 selos`;
+      document.getElementById('stampsCountFinal').innerText = `${currentStamps} / 8 SELOS`;
+      if (currentStamps >= 8) {
+        document.getElementById('menuStampStatus').innerText = 'Parabéns! 8 selos completados!';
+      }
+    }
+
+    function renderMobileBill() {
+      const container = document.getElementById('mobileBillItemsList');
+      let subtotal = 0;
+      let totalQty = 0;
+
+      if (mobileComandaItems.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 36px 18px; background: rgba(18, 18, 24, 0.5); border: 1px dashed var(--border); border-radius: var(--radius-lg); margin-bottom: 14px;">
+            <div style="font-size: 38px; margin-bottom: 8px;">🍽️</div>
+            <div style="font-family: var(--font-display); font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 4px;">Sua comanda está zerada</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.4;">Você ainda não pediu nada nesta mesa.<br>Escolha cortes na brasa e bebidas no cardápio!</div>
+            <button class="btn-add" style="margin: 0 auto; padding: 10px 22px; font-size: 12px;" onclick="switchTab(0)">
+              📖 Escolher Pratos no Cardápio
+            </button>
+          </div>
+        `;
+      } else {
+        container.innerHTML = mobileComandaItems.map((item, idx) => {
+          subtotal += item.price * item.qty;
+          totalQty += item.qty;
+          return `
+            <div class="bill-item-row">
+              <div class="item-icon-box">${item.icon || '🥩'}</div>
+              <div class="item-details">
+                <div class="item-name">${item.qty}x ${item.name}</div>
+                <div class="item-sub">${item.obs}</div>
+                <div class="item-time">Entregue na Mesa 14</div>
+              </div>
+              <div>
+                <div class="item-price">R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      const tipAmount = subtotal * (selectedTip / 100);
+      const finalTotal = subtotal + tipAmount;
+
+      document.getElementById('billItemsCountText').innerText = `${totalQty} itens na mesa`;
+      document.getElementById('mobileSubtotalVal').innerText = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+      document.getElementById('tipLabelMobile').innerText = `Taxa de Atendimento (${selectedTip}%)`;
+      document.getElementById('tipValTextMobile').innerText = `+ R$ ${tipAmount.toFixed(2).replace('.', ',')}`;
+      document.getElementById('totalPriceBillMobile').innerText = `R$ ${finalTotal.toFixed(2).replace('.', ',')}`;
+      document.getElementById('pixModalAmountMobile').innerText = `R$ ${finalTotal.toFixed(2).replace('.', ',')}`;
+      
+      const payBtn = document.getElementById('btnPayMobile');
+      if (mobileComandaItems.length === 0) {
+        payBtn.innerText = 'Comanda Zerada • Adicione Pratos';
+        payBtn.style.opacity = '0.7';
+      } else {
+        payBtn.innerText = `Pagar R$ ${finalTotal.toFixed(2).replace('.', ',')} & Liberar Câmera`;
+        payBtn.style.opacity = '1';
+      }
+
+      document.getElementById('floatingComandaText').innerText = `${totalQty} itens na mesa • R$ ${finalTotal.toFixed(2).replace('.', ',')}`;
+    }
+
+    // Navegação por Abas
+    function switchTab(index) {
+      if (!currentUser && index !== 4) {
+        showAuthScreen();
+        return;
+      }
+
+      const screens = [
+        { id: 'screenMenu', title: 'Cardápio da Brasa', nav: 'navMenu' },
+        { id: 'screenBill', title: 'Comanda da Mesa 14', nav: 'navBill' },
+        { id: 'screenCamera', title: 'Câmera Social Pro', nav: 'navCamera' },
+        { id: 'screenStamps', title: 'Passaporte Pitmaster', nav: 'navStamps' },
+        { id: 'screenDishDetail', title: 'Detalhes do Prato', nav: null }
+      ];
+
+      const authScreen = document.getElementById('screenAuth');
+      if (authScreen) authScreen.classList.remove('active');
+
+      screens.forEach((s) => {
+        const el = document.getElementById(s.id);
+        if (el) el.classList.remove('active');
+        if (s.nav) {
+          const navEl = document.getElementById(s.nav);
+          if (navEl) navEl.classList.remove('active');
+        }
+      });
+
+      const current = screens[index];
+      if (current) {
+        document.getElementById(current.id).classList.add('active');
+        document.getElementById('headerTitle').innerText = current.title;
+        if (current.nav) {
+          document.getElementById(current.nav).classList.add('active');
+        }
+      }
+
+      document.getElementById('floatingComanda').style.display = (index === 0) ? 'flex' : 'none';
+      if (index === 1) renderMobileBill(); // sempre atualiza comanda ao abrir a aba
+      if (index === 2) initMobileWebcam();
+      document.querySelector('.screens-container').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Detalhes do Prato
+    function openDishDetail(dish) {
+      selectedDish = dish;
+      dishQty = 1;
+      extraSauceTotal = 0;
+
+      document.getElementById('dishDetailImg').src = dish.img;
+      document.getElementById('dishDetailTag').innerHTML = `🔥 ${dish.tag}`;
+      document.getElementById('dishDetailName').innerText = dish.name;
+      document.getElementById('dishDetailPrice').innerText = `R$ ${dish.price.toFixed(2).replace('.', ',')}`;
+      document.getElementById('dishDetailDesc').innerText = dish.desc;
+      document.getElementById('dishDetailPairing').innerText = dish.pairing || 'Chopp Puro Malte bem gelado.';
+
+      updateDishDetailTotal();
+      switchTab(4);
+    }
+
+    function closeDishDetail() {
+      switchTab(0);
+    }
+
+    function changeQty(delta) {
+      if (dishQty + delta >= 1) {
+        dishQty += delta;
+        document.getElementById('dishQty').innerText = dishQty;
+        updateDishDetailTotal();
+      }
+    }
+
+    function selectRadio(el) {
+      document.querySelectorAll('.custom-radio-row').forEach(r => r.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    function toggleCheckbox(el, price) {
+      el.classList.toggle('selected');
+      const isSelected = el.classList.contains('selected');
+      extraSauceTotal += (isSelected ? price : -price);
+      updateDishDetailTotal();
+    }
+
+    function updateDishDetailTotal() {
+      const total = (selectedDish.price + extraSauceTotal) * dishQty;
+      document.getElementById('dishTotalBtn').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+
+    function addDishToCart() {
+      mobileComandaItems.push({
+        id: Date.now(),
+        name: selectedDish.name,
+        qty: dishQty,
+        price: selectedDish.price + extraSauceTotal,
+        obs: 'Pedido da mesa',
+        icon: '🥩'
+      });
+      renderMobileBill();
+      playSound('chime');
+      showToast(`${dishQty}x ${selectedDish.name} adicionado à comanda!`);
+      closeDishDetail();
+    }
+
+    // Gorjeta e Pagamento
+    function selectTip(percent, el) {
+      selectedTip = percent;
+      document.querySelectorAll('.tip-box').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      renderMobileBill();
+    }
+
+    function selectPayment(method) {
+      selectedPaymentMethod = method;
+      document.querySelectorAll('.payment-option').forEach(p => p.classList.remove('active'));
+      if (method === 'pix') document.getElementById('payPix').classList.add('active');
+      if (method === 'card') document.getElementById('payCard').classList.add('active');
+      if (method === 'wallet') document.getElementById('payWallet').classList.add('active');
+    }
+
+    function processPaymentMobile() {
+      if (mobileComandaItems.length === 0) {
+        playSound('shutter');
+        showToast('⚠️ Sua comanda está zerada! Adicione pratos do cardápio primeiro.');
+        return;
+      }
+      const btn = document.getElementById('btnPayMobile');
+      btn.innerText = 'Processando Pagamento Seguro...';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.disabled = false;
+        triggerConfettiMobile();
+        playSound('fanfare');
+        showToast('✅ Pagamento confirmado com sucesso na Mesa 14!');
+        setTimeout(() => switchTab(2), 1200);
+      }, 1400);
+    }
+
+    // Câmera Social Engine
+    async function initMobileWebcam() {
+      const video = document.getElementById('webcamVideoMobile');
+      const fallback = document.getElementById('fallbackPhotoMobile');
+
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        try {
+          if (!webcamStreamMobile) {
+            webcamStreamMobile = await navigator.mediaDevices.getUserMedia({
+              video: { facingMode: 'user', width: { ideal: 720 }, height: { ideal: 1280 } },
+              audio: false
+            });
+          }
+          video.srcObject = webcamStreamMobile;
+          video.style.display = 'block';
+          fallback.style.display = 'none';
+          isUsingFallbackMobile = false;
+          document.getElementById('mobCamStatusText').innerText = 'AO VIVO (CÂMERA)';
+        } catch (e) {
+          useFallbackMobilePhoto();
+        }
+      } else {
+        useFallbackMobilePhoto();
+      }
+    }
+
+    function useFallbackMobilePhoto() {
+      const video = document.getElementById('webcamVideoMobile');
+      const fallback = document.getElementById('fallbackPhotoMobile');
+      video.style.display = 'none';
+      fallback.style.display = 'block';
+      isUsingFallbackMobile = true;
+      document.getElementById('mobCamStatusText').innerText = 'FOTO DEMONSTRATIVA';
+    }
+
+    function toggleMobileCameraSource() {
+      if (isUsingFallbackMobile) {
+        initMobileWebcam();
+        showToast('📷 Ativando câmera ao vivo...');
+      } else {
+        if (webcamStreamMobile) {
+          webcamStreamMobile.getTracks().forEach(t => t.stop());
+          webcamStreamMobile = null;
+        }
+        useFallbackMobilePhoto();
+        showToast('📷 Alternado para foto demonstrativa.');
+      }
+    }
+
+    function setMobileFrame(frame, btn) {
+      document.querySelectorAll('#screenCamera .cat-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      const overlay = document.getElementById('mobFrameOverlay');
+      overlay.className = 'viewfinder-overlay frame-' + frame + '-mob';
+    }
+
+    function triggerMobileCapture() {
+      playSound('shutter');
+      const flash = document.getElementById('flashOverlay');
+      flash.classList.add('flash');
+      setTimeout(() => flash.classList.remove('flash'), 160);
+
+      const video = document.getElementById('webcamVideoMobile');
+      const fallback = document.getElementById('fallbackPhotoMobile');
+      const canvas = document.getElementById('mobileCaptureCanvas');
+      const ctx = canvas.getContext('2d');
+
+      const wrapper = document.getElementById('mobViewfinderWrapper');
+      const w = wrapper.clientWidth || 380;
+      const h = wrapper.clientHeight || 380;
+      canvas.width = w;
+      canvas.height = h;
+
+      if (!isUsingFallbackMobile && video && video.videoWidth) {
+        ctx.save();
+        ctx.translate(w, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(video, 0, 0, w, h);
+        ctx.restore();
+      } else {
+        ctx.drawImage(fallback, 0, 0, w, h);
+      }
+
+      // Moldura e marcas
+      ctx.strokeStyle = '#ff6a00';
+      ctx.lineWidth = 10;
+      ctx.strokeRect(5, 5, w - 10, h - 10);
+
+      // Top Tag
+      ctx.fillStyle = 'rgba(10, 10, 14, 0.85)';
+      ctx.fillRect(10, 10, w - 20, 32);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 12px "Cinzel", serif';
+      ctx.fillText('🔥 SEM-BANHA SMOKEHOUSE', 20, 31);
+      ctx.fillStyle = '#e5b95f';
+      ctx.textAlign = 'right';
+      ctx.font = 'bold 10px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('MESA 14 • 2026', w - 20, 31);
+
+      // Bottom Bar
+      ctx.textAlign = 'left';
+      ctx.fillStyle = 'rgba(10, 10, 14, 0.85)';
+      ctx.fillRect(10, h - 34, w - 20, 24);
+      ctx.fillStyle = '#ff9e58';
+      ctx.font = 'bold 10px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('👑 Comitiva da Brasa • Selo #08', 20, h - 18);
+
+      canvas.style.display = 'block';
+      capturedPhotoMobileData = canvas.toDataURL('image/jpeg', 0.95);
+      showToast('📸 Foto gravada com moldura oficial da casa!');
+    }
+
+    function saveMobilePhotoAndStamp() {
+      if (!capturedPhotoMobileData) triggerMobileCapture();
+      currentStamps = 8;
+      renderStamps();
+      triggerConfettiMobile();
+      playSound('fanfare');
+      showToast('🎉 8º SELO CARIMBADO COM SUCESSO! Brinde Liberado!');
+      setTimeout(() => switchTab(3), 1200);
+    }
+
+    function downloadMobilePhoto() {
+      if (!capturedPhotoMobileData) triggerMobileCapture();
+      const a = document.createElement('a');
+      a.href = capturedPhotoMobileData || document.getElementById('fallbackPhotoMobile').src;
+      a.download = 'SemBanha_Mesa14_MobileSouvenir.jpg';
+      a.click();
+      showToast('⬇️ Foto polaroid baixada em alta resolução!');
+    }
+
+    // Modais
+    function openQrModal() { document.getElementById('modalQr').classList.add('active'); }
+    function closeQrModal() { document.getElementById('modalQr').classList.remove('active'); }
+    function openRedeemModal() { document.getElementById('modalRedeem').classList.add('active'); }
+    function closeRedeemModal() { document.getElementById('modalRedeem').classList.remove('active'); }
+    function openWaiterModalMobile() { document.getElementById('modalWaiterMob').classList.add('active'); }
+    function closeWaiterModalMobile() { document.getElementById('modalWaiterMob').classList.remove('active'); }
+
+    function copyPixCodeMobile() {
+      navigator.clipboard.writeText('00020126580014BR.GOV.BCB.PIX0136sembanha-mesa14@pix.com.br');
+      showToast('📋 Código PIX copiado com sucesso!');
+      closeQrModal();
+    }
+
+    function copyVoucherCode() {
+      navigator.clipboard.writeText('#SEMBANHA-8SELOS-VIP');
+      showToast('📋 Código do voucher copiado!');
+    }
+
+    function confirmRedeemMobile() {
+      closeRedeemModal();
+      document.getElementById('btnResgatar').innerText = 'BRINDE JÁ RESGATADO ✔';
+      document.getElementById('btnResgatar').disabled = true;
+      document.getElementById('btnResgatar').style.background = '#2e4c2e';
+      playSound('bell');
+      showToast('Brinde validado com o Garçom Rodrigo!');
+    }
+
+    function confirmCallWaiterMob() {
+      closeWaiterModalMobile();
+      playSound('bell');
+      showToast('🔔 Garçom Rodrigo notificado! A caminho da Mesa 14.');
+    }
+
+    function quickRequestMob(req) {
+      closeWaiterModalMobile();
+      playSound('bell');
+      showToast(`🛎️ Solicitação enviada: ${req} para Mesa 14.`);
+    }
+
+    // Filtros e Busca
+    function handleSearch(query) {
+      const q = query.toLowerCase().trim();
+      const filtered = dishes.filter(d =>
+        d.name.toLowerCase().includes(q) ||
+        d.desc.toLowerCase().includes(q) ||
+        d.tag.toLowerCase().includes(q)
+      );
+      renderDishes(filtered);
+    }
+
+    function filterCategory(el, cat) {
+      document.querySelectorAll('.category-scroll .cat-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      if (cat === 'all') {
+        renderDishes(dishes);
+      } else {
+        renderDishes(dishes.filter(d => d.category === cat));
+      }
+    }
+
+    // Toast
+    function showToast(msg) {
+      const toast = document.getElementById('appToast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // Confetti Engine
+    function triggerConfettiMobile() {
+      const canvas = document.getElementById('confettiCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      const confettis = [];
+      const colors = ['#ff6a00', '#e5b95f', '#ffd54f', '#2ec4b6', '#ffffff'];
+
+      for (let i = 0; i < 70; i++) {
+        confettis.push({
+          x: Math.random() * width,
+          y: -20 - Math.random() * 80,
+          w: Math.random() * 8 + 5,
+          h: Math.random() * 5 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speedY: Math.random() * 4 + 2,
+          speedX: (Math.random() - 0.5) * 3,
+          rot: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 8
+        });
+      }
+
+      let frames = 0;
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        confettis.forEach(c => {
+          c.y += c.speedY;
+          c.x += c.speedX;
+          c.rot += c.rotSpeed;
+
+          ctx.save();
+          ctx.translate(c.x, c.y);
+          ctx.rotate((c.rot * Math.PI) / 180);
+          ctx.fillStyle = c.color;
+          ctx.fillRect(-c.w / 2, -c.h / 2, c.w, c.h);
+          ctx.restore();
+        });
+        frames++;
+        if (frames < 200) requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, width, height);
+      }
+      animate();
+    }
+
+    // Floating Parrilla Embers Particle System
+    function initEmberParticles() {
+      const canvas = document.getElementById('emberCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      const particles = [];
+      for (let i = 0; i < 24; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: height + Math.random() * 120,
+          radius: Math.random() * 2 + 0.8,
+          speedY: Math.random() * 0.7 + 0.35,
+          speedX: (Math.random() - 0.5) * 0.5,
+          opacity: Math.random() * 0.7 + 0.3,
+          color: Math.random() > 0.4 ? 'rgba(255, 106, 0,' : 'rgba(229, 185, 95,'
+        });
+      }
+
+      function renderEmbers() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+          p.y -= p.speedY;
+          p.x += p.speedX;
+          p.opacity -= 0.002;
+
+          if (p.y < -10 || p.opacity <= 0) {
+            p.x = Math.random() * width;
+            p.y = height + 10;
+            p.opacity = Math.random() * 0.7 + 0.3;
+            p.speedY = Math.random() * 0.7 + 0.35;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.opacity + ')';
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = '#ff6a00';
+          ctx.fill();
+        });
+        requestAnimationFrame(renderEmbers);
+      }
+      renderEmbers();
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
